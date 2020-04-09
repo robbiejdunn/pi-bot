@@ -37,12 +37,11 @@ end
 function PIBot:ChatEventHandler(msg, sender, ...)
     -- store string in lowercase to avoid case sensitivity
     local msg_lowered = string.lower(msg)
-    local msg_words = msg_lowered:gmatch("%w+")
 
-    if string.match(msg, "^pi [a-z]+$") then
-        if string.match(msg, " cd$") then
+    if string.match(msg_lowered, "^pi [a-z]+$") then
+        if string.match(msg_lowered, " cd$") then
             SendChatMessage(PIBot:Cooldown(), "WHISPER", nil, sender)
-        elseif string.match(msg, " stats$") then
+        elseif string.match(msg_lowered, " stats$") then
             SendChatMessage(PIBot:StatsSession(), "WHISPER", nil, sender)
         else
             SendChatMessage("Unknown command. Available commands are cd stats.", "WHISPER", nil, sender)
@@ -85,15 +84,17 @@ function PIBot:PISpellDamage(damageTotal, damageOverkill)
 end
 
 function PIBot:StatsSession()
-    return "PI has been cast " .. _G["sessionPICastsCount"] .. " times this session."
+    return "PI has been cast " .. _G["sessionPICastsCount"] .. " times this session. During this, " .. _G["sessionStats"]["DamageSpellCasts"] ..
+        " damaging spells have been cast with PI providing " .. _G["sessionStats"]["TotalDamageIncrease"] .. " extra damage."
 end
 
 function PIBot:PIEnded()
     print("PI SESSION ENDED")
 
     local dmgDone = PIBot.PICurrentDamageTotal - PIBot.PICurrentDamageOverkill
+    local piDamageContributed = dmgDone * 0.2
     _G["sessionStats"]["DamageSpellCasts"] = _G["sessionStats"]["DamageSpellCasts"] + PIBot.PICurrentNumberCasts
-    _G["sessionStats"]["TotalDamageIncrease"] = _G["sessionStats"]["TotalDamageIncrease"] + dmgDone
+    _G["sessionStats"]["TotalDamageIncrease"] = _G["sessionStats"]["TotalDamageIncrease"] + piDamageContributed
 end
 
 PIBot:Setup()
