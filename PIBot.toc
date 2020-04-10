@@ -1,0 +1,4 @@
+## Interface: 11302
+## Title: PI Bot
+## Notes: Addon to help with PI assignments and casting
+PIBot.lua
