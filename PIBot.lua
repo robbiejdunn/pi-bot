@@ -62,11 +62,11 @@ end
 
 function PIBot:CombatLogEventHandler(...)
     timestamp, event, hideCaster, srcGUID, srcName, srcFlags, sourceRaidFlags, dstGUID, dstName, dstFlags, destRaidFlags, arg12, arg13, arg14, arg15, arg16, arg18, arg19, arg20 = CombatLogGetCurrentEventInfo()
-    if srcName == "Dizia" and arg13 == "Inner Fire" and (event == "SPELL_AURA_APPLIED" or event == "SPELL_AURA_REFRESH") then
+    if srcName == "Dizia" and arg13 == "Power Infusion" and (event == "SPELL_AURA_APPLIED" or event == "SPELL_AURA_REFRESH") then
         PIBot:PICast(dstName)
     elseif srcName == PIBot.PICurrentUnit and event == "SPELL_DAMAGE" then
         PIBot:PISpellDamage(arg15, arg16)
-    elseif event == 'SPELL_AURA_REMOVED' and srcName == PIBot.PICurrentUnit and arg13 == 'Inner Fire' then
+    elseif event == "SPELL_AURA_REMOVED" and srcName == PIBot.PICurrentUnit and arg13 == "Power Infusion" then
         PIBot:PIEnded()
     end
 end
